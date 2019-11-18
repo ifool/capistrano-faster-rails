@@ -10,14 +10,14 @@ Capistrano runs each command separately on their own SSH session and it takes to
 
 `bundle install` takes few or dozens of seconds, most of the time your project's Gemfile will not be changed, and you don't have to execute `bundle install` if your Gemfile isn't changed.
 
-3. Skip `rake assets:precompile` if asset files not chagned.
+3. Skip `rake assets:precompile` and `yarn:install` if asset files not chagned.
 
-`rake assets:precompile` is really slow if your Rails project has plenty of assets to precompile, even if they are not changed. You don't have to execute `rake assets:precompile` if your asset files not chagned.
+`rake assets:precompile` and `yarn:install` is really slow if your Rails project has plenty of assets to precompile, even if they are not changed. You don't have to execute them if your asset files not chagned.
 
 
 ## Installation
 
-Add this line to your Rails application's Gemfile and below to `gem 'capistrano-rails'`:
+Add this line to your Rails application's Gemfile and below to `gem 'capistrano-rails'`. if your project have `capistrano-yarn` installed, please add this line below to `gem 'capistrano-yarn'` too.
 
 ```ruby
 # Gemfile

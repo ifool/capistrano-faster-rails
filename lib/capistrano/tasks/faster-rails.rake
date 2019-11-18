@@ -39,7 +39,6 @@ namespace :deploy do
           previous_revision.to_s.empty? ||
             !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{asset_files}").empty?
         }
-
         if asset_changed
           within(release_path) do
             with rails_env: fetch(:rails_env), rails_groups: fetch(:rails_assets_groups) do
@@ -67,7 +66,7 @@ namespace :bundler do
           !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{bundle_files}").empty?
       }
 
-      within release_path do
+      within(release_path) {
         with fetch(:bundle_env_variables) do
           options = []
           options << "--gemfile #{fetch(:bundle_gemfile)}" if fetch(:bundle_gemfile)
@@ -84,6 +83,35 @@ namespace :bundler do
               execute :echo, %Q['BUNDLE_FROZEN: "true"\nBUNDLE_WITHOUT: "development:test"'], '>>', '.bundle/config'
             end
           end
+        end
+      }
+    end
+  end
+end
+
+yarn_install_task = Rake::Task["yarn:install"] rescue nil
+if yarn_install_task
+  yarn_install_task.clear_actions
+
+  namespace :yarn do
+    Rake::Task["yarn:install"]
+    task :install do
+      on roles fetch(:yarn_roles) do
+        log "[yarn:install] Checking package.json and yarn.lock changes"
+        asset_files = fetch(:asset_files, "package.json yarn.lock")
+        asset_changed = within(repo_path) {
+          previous_revision, current_revision = fetch(:previous_revision), fetch(:current_revision)
+          previous_revision.to_s.empty? ||
+            !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{asset_files}").empty?
+        }
+        if asset_changed
+          within fetch(:yarn_target_path, release_path) do
+            with fetch(:yarn_env_variables, {}) do
+              execute fetch(:yarn_bin), 'install', fetch(:yarn_flags)
+            end
+          end
+        else
+          log "[yarn:install] Skip `yarn:install` (package.json and yarn.lock not changed)"
         end
       end
     end
