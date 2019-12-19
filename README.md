@@ -2,17 +2,19 @@
 
 ## What does this gem do?
 
-1. Execute copy `linked_files` and `linked_dirs` with one command on deployed servers.
+1. Set `conditionally_migrate` to true to skip `rails db:migrate` if migration files not changed.
+
+2. Execute copy `linked_files` and `linked_dirs` with one command on deployed servers.
 
 Capistrano runs each command separately on their own SSH session and it takes too long to deploy an application, copy `linked_files` and `linked_dirs` on deployed servers with one command will speedup deploying process.
 
-2. Skip `bundle install` if Gemfile isn't changed.
+3. Skip `bundle install` if Gemfile isn't changed.
 
-`bundle install` takes few or dozens of seconds, most of the time your project's Gemfile will not be changed, and you don't have to execute `bundle install` if your Gemfile isn't changed.
+`bundle install` takes a few seconds even if Gemfile isn't changed, there is no need to execute `bundle install` if it isn't changed.
 
-3. Skip `rake assets:precompile` and `yarn:install` if asset files not chagned.
+4. Skip `rake assets:precompile` and `yarn:install` if asset files aren't chagned.
 
-`rake assets:precompile` and `yarn:install` is really slow if your Rails project has plenty of assets to precompile, even if they are not changed. You don't have to execute them if your asset files not chagned.
+`rake assets:precompile` and `yarn:install` is really slow if your Rails project has plenty of assets to precompile, even if they are not changed. There is no need to execute these commands if asset files not chagned.
 
 
 ## Installation
@@ -41,7 +43,7 @@ use `set :asset_files` in config/deploy.rb to set your project assets files, `as
 
 use `set :bundle_files` in config/deploy.rb to set your project ruby Gemfile files, `bundle_files` default to `"Gemfile Gemfile.lock .ruby-version"`
 
-Causion:
+## Note
 
 `asset_files` and `bundle_files` are both space separated string, not array!
 

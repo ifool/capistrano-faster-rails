@@ -1,3 +1,5 @@
+set :conditionally_migrate, true
+
 namespace :deploy do
   namespace :symlink do
     Rake::Task["deploy:symlink:linked_files"].clear_actions

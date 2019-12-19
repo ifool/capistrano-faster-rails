@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "capistrano-faster-rails"
-  spec.version       = "1.0.6"
+  spec.version       = "1.0.7"
   spec.authors       = ["lifuzhong"]
   spec.email         = ["lifuzho@126.com"]
 
   spec.summary       = %q{Speedup deploy Ruby On Rails project when using capistrano}
   spec.description   = %q{
     Make your Ruby On Rails project deploying with Capistrano even faster.
-    It skips unnecessary steps(`bundle install`, `rake assets:precompile`, `yarn:install`) intelligently.
+    It skips unnecessary steps(`rails db:migrate`, `bundle install`, `rake assets:precompile`, `yarn:install`) intelligently.
   }
   spec.homepage      = "https://github.com/ifool/capistrano-faster-rails"
   spec.license       = 'MIT'
