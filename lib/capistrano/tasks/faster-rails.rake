@@ -37,7 +37,8 @@ namespace :deploy do
         log "[deploy:assets:precompile] Checking assets changes"
         asset_files = fetch(:asset_files, "vendor/assets app/assets config/initializers/assets.rb")
         asset_changed = within(repo_path) {
-          previous_revision, current_revision = fetch(:previous_revision), fetch(:current_revision)
+          previous_revision = fetch(:previous_revision) rescue ''
+          current_revision  = fetch(:current_revision)
           previous_revision.to_s.empty? ||
             !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{asset_files}").empty?
         }
@@ -63,7 +64,8 @@ namespace :bundler do
       log "[bundler:install] Checking Gemfile and Gemfile.lock changes"
       bundle_files = fetch(:bundle_files, "Gemfile Gemfile.lock .ruby-version")
       gemfile_changed = within(repo_path) {
-        previous_revision, current_revision = fetch(:previous_revision), fetch(:current_revision)
+        previous_revision = fetch(:previous_revision) rescue ''
+        current_revision  = fetch(:current_revision)
         previous_revision.to_s.empty? ||
           !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{bundle_files}").empty?
       }
@@ -102,7 +104,8 @@ if yarn_install_task
         log "[yarn:install] Checking package.json and yarn.lock changes"
         asset_files = fetch(:asset_files, "package.json yarn.lock")
         asset_changed = within(repo_path) {
-          previous_revision, current_revision = fetch(:previous_revision), fetch(:current_revision)
+          previous_revision = fetch(:previous_revision) rescue ''
+          current_revision  = fetch(:current_revision)
           previous_revision.to_s.empty? ||
             !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{asset_files}").empty?
         }
