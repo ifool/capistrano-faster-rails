@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "capistrano-faster-rails"
-  spec.version       = "1.0.9"
+  spec.version       = "1.1.0"
   spec.authors       = ["lifuzhong"]
   spec.email         = ["lifuzho@126.com"]
 

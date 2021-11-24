@@ -71,7 +71,7 @@ namespace :bundler do
       }
 
       within(release_path) {
-        with fetch(:bundle_env_variables) do
+        with(fetch(:bundle_env_variables) || {}) do
           options = []
           options << "--gemfile #{fetch(:bundle_gemfile)}" if fetch(:bundle_gemfile)
           options << "--path #{fetch(:bundle_path)}" if fetch(:bundle_path)
