@@ -84,6 +84,7 @@ namespace :bundler do
               execute :bundle, :install, *options
             else
               log "[bundler:install] Skip `bundle install` (Gemfile and Gemfile.lock not changed)"
+              execute :mkdir, "-p", ".bundle"
               execute :echo, %Q['BUNDLE_FROZEN: "true"\nBUNDLE_WITHOUT: "development:test"'], '>>', '.bundle/config'
             end
           end
