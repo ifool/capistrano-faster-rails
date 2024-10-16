@@ -40,7 +40,7 @@ namespace :deploy do
           previous_revision = fetch(:previous_revision) rescue ''
           current_revision  = fetch(:current_revision)
           previous_revision.to_s.empty? ||
-            !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{asset_files}").empty?
+            !capture("cd #{repo_path} && git diff --name-only #{previous_revision} #{current_revision} -- #{asset_files} | head -n 3").empty?
         }
         if asset_changed
           within(release_path) do
